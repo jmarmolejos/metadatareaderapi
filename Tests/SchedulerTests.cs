@@ -26,8 +26,8 @@ namespace Tests
             _client = new Mock<IBackgroundJobClient>();
 
             _context = new Mock<IMetadataContext>();
-            var collectionMock = new Mock<DbSet<ImageMetadata>>().Object;
-            _context.Setup(ctx => ctx.ImageMetadata).Returns(collectionMock);
+            var collectionMock = new Mock<DbSet<ScheduledImage>>().Object;
+            _context.Setup(ctx => ctx.ScheduledImages).Returns(collectionMock);
         }
 
         [Test]

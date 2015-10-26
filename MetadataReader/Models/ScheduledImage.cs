@@ -1,6 +1,6 @@
 ﻿namespace MetadataReader.Models
 {
-    public class ImageMetadata
+    public class ScheduledImage
     {
         public int Id { get; set; }
         public string FileName { get; set; }

@@ -30,13 +30,13 @@ namespace MetadataReader.Controllers
         // GET: api/Scheduler
         public IEnumerable<AssetApiModel> Get()
         {
-            return _context.ImageMetadata.Select(im => AssetApiModel(im));
+            return _context.ScheduledImages.Select(im => AssetApiModel(im));
         }
         
         // GET: api/Scheduler/5
         public AssetApiModel Get(int id)
         {
-            var imageMetadata = _context.ImageMetadata.Find(id);
+            var imageMetadata = _context.ScheduledImages.Find(id);
             return AssetApiModel(imageMetadata);
         }
 
@@ -44,12 +44,12 @@ namespace MetadataReader.Controllers
         public void Post([FromBody]AssetApiModel assetApiModel)
         {
             // Should save asset info
-            var imageMetadata = new ImageMetadata()
+            var imageMetadata = new ScheduledImage()
             {
                 FileName = assetApiModel.FileName,
                 DownloadUrl = assetApiModel.Url
             };
-            _context.ImageMetadata.Add(imageMetadata);
+            _context.ScheduledImages.Add(imageMetadata);
 
             _context.SaveChanges();
 
@@ -73,7 +73,7 @@ namespace MetadataReader.Controllers
         {
         }
 
-        private AssetApiModel AssetApiModel(ImageMetadata im)
+        private AssetApiModel AssetApiModel(ScheduledImage im)
         {
             return new AssetApiModel()
             {

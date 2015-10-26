@@ -31,11 +31,4 @@ namespace MetadataReader.Models
             return imageMetadataTags;
         }
     }
-
-    public class ImageMetadataTag
-    {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public string MetadataValue { get; set; }
-    }
 }

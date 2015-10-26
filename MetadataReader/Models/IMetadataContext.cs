@@ -8,7 +8,8 @@ namespace MetadataReader.Models
 {
     public interface IMetadataContext
     {
-        DbSet<ImageMetadata> ImageMetadata { get; set; }
+        DbSet<ScheduledImage> ScheduledImages { get; set; }
+        DbSet<ImageMetadataTag> ImageMetadataTags { get; set; }
         void SaveChanges();
         void MarkAsModified(object item);
     }

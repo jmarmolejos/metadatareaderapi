@@ -13,7 +13,7 @@ namespace MetadataReader.Controllers
         {
             var context = new MetadataContext();
 
-            var stuff = context.ImageMetadata.ToList();
+            var stuff = context.ScheduledImages.ToList();
 
             ViewBag.Title = "Home Page";
 

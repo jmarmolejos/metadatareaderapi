@@ -13,7 +13,8 @@ namespace MetadataReader.Models
             Database.SetInitializer<MetadataContext>(new DropCreateDatabaseIfModelChanges<MetadataContext>());
         }
 
-        public DbSet<ImageMetadata> ImageMetadata { get; set; }
+        public DbSet<ScheduledImage> ScheduledImages { get; set; }
+        public DbSet<ImageMetadataTag> ImageMetadataTags { get; set; }
 
         void IMetadataContext.SaveChanges()
         {
