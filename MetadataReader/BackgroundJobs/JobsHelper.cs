@@ -22,6 +22,11 @@ namespace MetadataReader.BackgroundJobs
             _reader = reader;
         }
 
+        public JobsHelper() : this(new MetadataContext(), new DownloadToStream(), new CustomMetadataReader())
+        {
+            
+        }
+
         public void DownloadAndReadMetadata(int imageId)
         {
             // Get scheduled image from db
@@ -34,6 +39,11 @@ namespace MetadataReader.BackgroundJobs
             var metadata = _reader.ReadFromStream(stream);
 
             // Save entities
+            metadata.ForEach(tag =>
+            {
+                _context.ImageMetadataTags.Add(tag);
+            });
+            _context.SaveChanges();
         }
     }
 }
