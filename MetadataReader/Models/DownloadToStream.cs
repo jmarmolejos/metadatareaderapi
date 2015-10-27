@@ -4,20 +4,18 @@ using System.Net;
 
 namespace MetadataReader.Models
 {
-    public class DownloadToStream
+    public interface IDownloadToStream
     {
-        private string _url;
+        MemoryStream Download(string url);
+    }
 
-        public DownloadToStream(string fileUrl)
-        {
-            _url = fileUrl;
-        }
-
-        public MemoryStream Download()
+    public class DownloadToStream : IDownloadToStream
+    {
+        public MemoryStream Download(string url)
         {
             // A better implementation that supports limiting the bytes being read: http://stackoverflow.com/a/5605490/116685
             WebClient webClient = new WebClient();
-            var stream = new MemoryStream(webClient.DownloadData(_url));
+            var stream = new MemoryStream(webClient.DownloadData(url));
 
             return stream;
         }

@@ -30,7 +30,7 @@ namespace MetadataReader.Controllers
         // GET: api/Scheduler
         public IEnumerable<AssetApiModel> Get()
         {
-            return _context.ScheduledImages.Select(im => AssetApiModel(im));
+            return _context.ScheduledImages.ToList().Select(im => AssetApiModel(im));
         }
         
         // GET: api/Scheduler/5
@@ -52,13 +52,12 @@ namespace MetadataReader.Controllers
             _context.ScheduledImages.Add(imageMetadata);
 
             _context.SaveChanges();
-
-
+            
             // Should start download and encode queue
-            _backgroundJobClient.Enqueue(() => JobsHelper.DownloadAndReadMetadata("fooId"));
-
-
-            // Should return saved asset info
+            var helper = new JobsHelper(_context, new DownloadToStream(), new CustomMetadataReader());
+            _backgroundJobClient.Enqueue(() => helper.DownloadAndReadMetadata(imageMetadata.Id));
+            
+            // Should return saved asset info ?
         }
 
         

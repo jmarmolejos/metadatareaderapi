@@ -5,7 +5,12 @@ using MetadataExtractor;
 
 namespace MetadataReader.Models
 {
-    public class CustomMetadataReader
+    public interface ICustomMetadataReader
+    {
+        List<ImageMetadataTag> ReadFromStream(MemoryStream stream);
+    }
+
+    public class CustomMetadataReader : ICustomMetadataReader
     {
         public List<ImageMetadataTag> ReadFromStream(MemoryStream stream)
         {
