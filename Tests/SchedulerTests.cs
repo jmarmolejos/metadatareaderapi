@@ -58,7 +58,7 @@ namespace Tests
         }
 
         [Test]
-        public void SchedulerController_Should_save_scheduled_image()
+        public void SchedulerController_Should_save_scheduled_image_entity()
         {
             // Arrange
             var scheduledImages = new Mock<DbSet<ScheduledImage>>();
@@ -95,11 +95,15 @@ namespace Tests
         public void MetadataReader_Reads_data_from_stream()
         {
             // Arrange
-            var downloader = new DownloadToStream();
+            var fileStream = new FileStream("../../files/img1.tif", FileMode.Open);
+            MemoryStream memoryStream = new MemoryStream();
+            fileStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+
             var reader = new CustomMetadataReader();
 
             // Act
-            List<ImageMetadataTag> info = reader.ReadFromStream(downloader.Download("https://github.com/drewnoakes/metadata-extractor-images/blob/master/tif/Issue%2016.tif?raw=true"));
+            List<ImageMetadataTag> info = reader.ReadFromStream(memoryStream);
 
             // Assert
             Assert.That(info, Is.Not.Empty);

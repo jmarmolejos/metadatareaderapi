@@ -26,7 +26,7 @@ namespace Tests
         }
 
         [Test]
-        public void DownloadAndReadMetadata_Should_get_image_from_db()
+        public void DownloadAndReadMetadata_Should_get_scheduled_image_from_db_and_process_it()
         {
             // Arrange
             var scheduledImages = new Mock<DbSet<ScheduledImage>>();
