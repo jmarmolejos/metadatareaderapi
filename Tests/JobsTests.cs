@@ -36,6 +36,7 @@ namespace Tests
             var downloader = new Mock<IDownloadToStream>();
 
             var metadataReader = new Mock<ICustomMetadataReader>();
+            metadataReader.Setup(m => m.ReadFromStream(It.IsAny<MemoryStream>())).Returns(new List<ImageMetadataTag>());
 
             var jobsHelper = new JobsHelper(_context.Object, downloader.Object, metadataReader.Object);
 
