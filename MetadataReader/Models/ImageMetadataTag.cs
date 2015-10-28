@@ -6,5 +6,9 @@ namespace MetadataReader.Models
         public string Type { get; set; }
         public string Name { get; set; }
         public string MetadataValue { get; set; }
+
+        public int ScheduledImageId { get; set; }
+
+        public ScheduledImage ScheduledImage { get; set; }
     }
 }

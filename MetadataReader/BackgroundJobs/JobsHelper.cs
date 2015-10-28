@@ -41,6 +41,7 @@ namespace MetadataReader.BackgroundJobs
             // Save entities
             metadata.ForEach(tag =>
             {
+                tag.ScheduledImageId = imageId;
                 _context.ImageMetadataTags.Add(tag);
             });
             _context.SaveChanges();
