@@ -5,15 +5,20 @@ namespace MetadataReader.Controllers
 {
     public class HomeController : Controller
     {
+        private IMetadataContext _context;
+
+        public HomeController(IMetadataContext context)
+        {
+            _context = context;
+        }
+
         public ActionResult Index()
         {
-            var context = new MetadataContext();
-
-            var stuff = context.ScheduledImages;
+            var scheduledImages = _context.ScheduledImages;
 
             ViewBag.Title = "Home Page";
 
-            return View();
+            return View(scheduledImages);
         }
     }
 }

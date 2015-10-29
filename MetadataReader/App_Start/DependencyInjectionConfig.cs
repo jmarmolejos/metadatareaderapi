@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
+using System.Web.Mvc;
 using Autofac;
+using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Hangfire;
 using MetadataReader.Models;
@@ -14,14 +16,16 @@ namespace MetadataReader
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<MetadataContext>().As<IMetadataContext>();
+            builder.RegisterType<MetadataContext>().As<IMetadataContext>().InstancePerRequest();
             builder.RegisterType<BackgroundJobClient>().As<IBackgroundJobClient>();
+
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
             var container = builder.Build();
 
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }
