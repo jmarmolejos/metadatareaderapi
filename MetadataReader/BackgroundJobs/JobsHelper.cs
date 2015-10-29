@@ -39,6 +39,10 @@ namespace MetadataReader.BackgroundJobs
             var metadata = _reader.ReadFromStream(stream);
 
             // Save entities
+
+            image.JobCompletedDate = DateTime.UtcNow;
+            _context.MarkAsModified(image);
+
             metadata.ForEach(tag =>
             {
                 tag.ScheduledImageId = imageId;
