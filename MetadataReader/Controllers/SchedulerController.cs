@@ -20,13 +20,7 @@ namespace MetadataReader.Controllers
             _context = context;
             _backgroundJobClient = backgroundJobClient;
         }
-
-        public SchedulerController() 
-            : this(new MetadataContext(), new BackgroundJobClient())
-        {
-            
-        }
-
+        
         // GET: api/Scheduler
         public IEnumerable<AssetApiModel> Get()
         {
