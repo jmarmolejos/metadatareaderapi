@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MetadataReader.Models;
+﻿using System.Web.Mvc;
 
 namespace MetadataReader.Controllers
 {
@@ -11,10 +6,6 @@ namespace MetadataReader.Controllers
     {
         public ActionResult Index()
         {
-            var context = new MetadataContext();
-
-            var stuff = context.ScheduledImages.ToList();
-
             ViewBag.Title = "Home Page";
 
             return View();
