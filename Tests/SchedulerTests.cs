@@ -74,7 +74,8 @@ namespace Tests
             });
 
             // Assert
-            scheduledImages.Verify(x => x.Add(It.Is<ScheduledImage>(img => img.FileName == "foo")));
+            scheduledImages.Verify(x => x.Add(It.Is<ScheduledImage>(img => img.FileName == "foo")), "Filename is different from expected.");
+            scheduledImages.Verify(x => x.Add(It.Is<ScheduledImage>(img => img.CreatedDate != DateTime.MinValue)), "Date was not set.");
         }
 
         [Test]

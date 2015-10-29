@@ -37,25 +37,13 @@ namespace MetadataReader.Controllers
         // POST: api/Scheduler
         public void Post([FromBody]AssetApiModel assetApiModel)
         {
-            // Should save asset info
-            var imageMetadata = new ScheduledImage()
-            {
-                FileName = assetApiModel.FileName,
-                DownloadUrl = assetApiModel.Url
-            };
-            _context.ScheduledImages.Add(imageMetadata);
+            var imageMetadata = SaveScheduleImageEndity(assetApiModel);
 
-            _context.SaveChanges();
-            
-            // Should start download and encode queue
-            var helper = new JobsHelper(_context, new DownloadToStream(), new CustomMetadataReader());
-            _backgroundJobClient.Enqueue(() => helper.DownloadAndReadMetadata(imageMetadata.Id));
-            
+            ScheduleBackgroundJob(imageMetadata);
+
             // Should return saved asset info ?
         }
-
         
-
         // PUT: api/Scheduler/5
         public void Put(int id, [FromBody]string value)
         {
@@ -73,6 +61,26 @@ namespace MetadataReader.Controllers
                 FileName = im.FileName,
                 Url = im.DownloadUrl
             };
+        }
+
+        private void ScheduleBackgroundJob(ScheduledImage imageMetadata)
+        {
+            var helper = new JobsHelper(_context, new DownloadToStream(), new CustomMetadataReader());
+            _backgroundJobClient.Enqueue(() => helper.DownloadAndReadMetadata(imageMetadata.Id));
+        }
+
+        private ScheduledImage SaveScheduleImageEndity(AssetApiModel assetApiModel)
+        {
+            var imageMetadata = new ScheduledImage()
+            {
+                FileName = assetApiModel.FileName,
+                DownloadUrl = assetApiModel.Url,
+                CreatedDate = DateTime.UtcNow
+            };
+            _context.ScheduledImages.Add(imageMetadata);
+
+            _context.SaveChanges();
+            return imageMetadata;
         }
 
     }

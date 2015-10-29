@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MetadataReader.Models
 {
@@ -9,5 +10,6 @@ namespace MetadataReader.Models
         public string DownloadUrl { get; set; }
 
         public ICollection<ImageMetadataTag> MetadataTags { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }
