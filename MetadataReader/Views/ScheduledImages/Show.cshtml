@@ -1,0 +1,27 @@
+﻿@model MetadataReader.Models.ScheduledImage
+
+<h1>Scheduled Asset</h1>
+
+<h2>Name</h2>
+<p>@Model.FileName</p>
+
+<h2>File Url</h2>
+<p>@Model.DownloadUrl</p>
+
+<section class="main-content content-wrapper">
+    <h2>Metadata</h2>
+    <table class="help-page-table">
+        <thead>
+            <tr><th>Tag name</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var metadataTag in Model.MetadataTags.OrderBy(m => m.Name))
+        {
+            <tr>
+                <td>@metadataTag.Name</td>
+                <td>@metadataTag.MetadataValue</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>

@@ -12,7 +12,7 @@
     @foreach (var img in Model)
     {
         <tr>
-            <td><a href="@Url.Action("ScheduledImage", "Home", new { Id = img.Id })">@img.FileName</a></td>
+            <td><a href="@Url.Action("Show", "ScheduledImages", new { Id = img.Id })">@img.FileName</a></td>
             <td>@img.DownloadUrl</td>
             <td>@img.CreatedDate</td>
             <td>@img.JobCompletedDate</td>
