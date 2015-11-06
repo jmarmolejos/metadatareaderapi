@@ -220,6 +220,9 @@
     <Compile Include="Models\AssetApiModel.cs" />
     <Compile Include="Models\CustomMetadataReader.cs" />
     <Compile Include="Models\DownloadToStream.cs" />
+    <Compile Include="Models\IHttpNotificationSender.cs" />
+    <Compile Include="Models\IMetadataRepository.cs" />
+    <Compile Include="Models\PostNotificationSender.cs" />
     <Compile Include="Models\ScheduledImage.cs" />
     <Compile Include="Models\ImageMetadataTag.cs" />
     <Compile Include="Models\IMetadataContext.cs" />

@@ -18,6 +18,9 @@ namespace MetadataReader
 
             builder.RegisterType<MetadataContext>().As<IMetadataContext>().InstancePerRequest();
             builder.RegisterType<BackgroundJobClient>().As<IBackgroundJobClient>();
+            builder.RegisterType<MetadataRepository>().As<IMetadataRepository>();
+            builder.RegisterType<PostNotificationSender>().As<IPostNotificationSender>();
+            builder.RegisterType<HttpNotificationSender>().As<IHttpNotificationSender>();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterControllers(Assembly.GetExecutingAssembly());

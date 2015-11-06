@@ -12,5 +12,6 @@ namespace MetadataReader.Models
         public ICollection<ImageMetadataTag> MetadataTags { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? JobCompletedDate { get; set; }
+        public string SuccessNotificationUrl { get; set; }
     }
 }

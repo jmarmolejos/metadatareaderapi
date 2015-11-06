@@ -14,11 +14,13 @@ namespace MetadataReader.Controllers
     {
         private IMetadataContext _context;
         private IBackgroundJobClient _backgroundJobClient;
+        private IPostNotificationSender _postNotificationSender;
 
-        public SchedulerController(IMetadataContext context, IBackgroundJobClient backgroundJobClient)
+        public SchedulerController(IMetadataContext context, IBackgroundJobClient backgroundJobClient, IPostNotificationSender postNotificationSender)
         {
             _context = context;
             _backgroundJobClient = backgroundJobClient;
+            _postNotificationSender = postNotificationSender;
         }
         
         // GET: api/Scheduler
@@ -65,7 +67,7 @@ namespace MetadataReader.Controllers
 
         private void ScheduleBackgroundJob(ScheduledImage imageMetadata)
         {
-            var helper = new JobsHelper(_context, new DownloadToStream(), new CustomMetadataReader());
+            var helper = new JobsHelper(_context, new DownloadToStream(), new CustomMetadataReader(), _backgroundJobClient, _postNotificationSender);
             _backgroundJobClient.Enqueue(() => helper.DownloadAndReadMetadata(imageMetadata.Id));
         }
 
@@ -75,6 +77,7 @@ namespace MetadataReader.Controllers
             {
                 FileName = assetApiModel.FileName,
                 DownloadUrl = assetApiModel.Url,
+                SuccessNotificationUrl = assetApiModel.SuccessNotificationUrl,
                 CreatedDate = DateTime.UtcNow
             };
             _context.ScheduledImages.Add(imageMetadata);

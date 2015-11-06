@@ -21,6 +21,8 @@ namespace Tests
         private IBackgroundJobClient _client;
         private IMetadataContext _context;
         private DbSet<ScheduledImage> _scheduledImages;
+        private IPostNotificationSender _postNotificationSender;
+
 
         [SetUp]
         public void Setup()
@@ -29,6 +31,9 @@ namespace Tests
 
             _context = Mock.Of<IMetadataContext>();
             _scheduledImages = Mock.Of<DbSet<ScheduledImage>>();
+
+            _postNotificationSender = Mock.Of<IPostNotificationSender>();
+
             var imageMetadataTags = Mock.Of<DbSet<ImageMetadataTag>>();
             Mock.Get(_context).Setup(ctx => ctx.ScheduledImages).Returns(_scheduledImages);
             Mock.Get(_context).Setup(ctx => ctx.ImageMetadataTags).Returns(imageMetadataTags);
@@ -45,7 +50,7 @@ namespace Tests
                     img.Id = 3;
                 });
 
-            var controller = new SchedulerController(_context, _client);
+            var controller = new SchedulerController(_context, _client, _postNotificationSender);
 
             // Act
             controller.Post(new AssetApiModel() {FileName = "foo", Url = "bar"});
@@ -60,7 +65,7 @@ namespace Tests
         public void SchedulerController_Should_save_scheduled_image_entity()
         {
             // Arrange
-            var controller = new SchedulerController(_context, _client);
+            var controller = new SchedulerController(_context, _client, _postNotificationSender);
 
             // Act
             controller.Post(new AssetApiModel()
@@ -73,21 +78,7 @@ namespace Tests
             Mock.Get(_scheduledImages).Verify(x => x.Add(It.Is<ScheduledImage>(img => img.FileName == "foo")), "Filename is different from expected.");
             Mock.Get(_scheduledImages).Verify(x => x.Add(It.Is<ScheduledImage>(img => img.CreatedDate != DateTime.MinValue)), "Date was not set.");
         }
-
-        [Test]
-        public void DownloadToStream_Downloads_file_to_stream()
-        {
-            // Arrange
-            var downloader = new DownloadToStream();
-
-            // Act
-            MemoryStream stream = downloader.Download("https://github.com/drewnoakes/metadata-extractor-images/blob/master/tif/Issue%2016.tif?raw=true");
-
-            // Assert
-            Assert.That(stream.Length > 0);
-            Assert.That(stream.Position, Is.EqualTo(0));
-        }
-
+        
         [Test]
         public void MetadataReader_Reads_data_from_stream()
         {
